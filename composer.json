@@ -1,0 +1,20 @@
+{
+    "name": "znck/summarizer",
+    "description": "Automatic text summarization",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rahul Kadyan",
+            "email": "hi@znck.me"
+        }
+    ],
+    "require": {
+        "html2text/html2text": "~2.0"
+    },
+    "homepage": "https://github.com/znck/summarizer",
+    "autoload": {
+      "psr-4": {
+        "Znck\\Summarizer\\": "src/"
+      }
+    }
+}
