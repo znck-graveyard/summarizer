@@ -1,6 +1,6 @@
 {
     "name": "znck/summarizer",
-    "description": "Automatic text summarization",
+    "description": "Automatic text summarization (open text summarizer wrapper)",
     "license": "MIT",
     "authors": [
         {
