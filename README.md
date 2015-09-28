@@ -2,17 +2,17 @@
 Automated summarizer (PHP wrapper for open text summary)
 
 ### Install
-```bash
+```
 composer require znck/summarizer
 ```
 
 Installing native dependencies.
 - Linux:  
-  ```bash
+  ```
   sudo apt-get install libxml2 libglib2.0-0 libpopt0
   ```
 - OS X:     
-  ```bash
+  ```
   brew install libxml2 glib popt
   ```
 
