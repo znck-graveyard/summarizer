@@ -22,7 +22,7 @@ ARTICLE;
         $output = $this->summarizer()->summarize($input, false);
 
         $ratio = strlen($output) * 1.0 / strlen($input);
-        $this->as(0.2 < $ratio and $ratio < 0.3, "Summarization ratio is {$ratio} but it should be 0.25");
+        $this->assertEquals(0.25, $ratio, "Summarization ratio is {$ratio} but it should be 0.25", 0.1);
     }
 
     public function test_with_file()
@@ -31,7 +31,7 @@ ARTICLE;
         $output = $this->summarizer()->summarize(__DIR__ . '/input.txt', true);
 
         $ratio = strlen($output) * 1.0 / strlen($this->input);
-        assert(0.2 < $ratio and $ratio < 0.3, "Summarization ratio is {$ratio} but it should be 0.25");
+        $this->assertEquals(0.25, $ratio, "Summarization ratio is {$ratio} but it should be 0.25", 0.1);
     }
 
     public function test_with_link()
@@ -40,7 +40,7 @@ ARTICLE;
         $output = $this->summarizer()->summarize('https://en.wikipedia.org/wiki/README', true);
 
         $ratio = strlen($output) * 1.0 / strlen($input);
-        assert(0.2 < $ratio and $ratio < 0.3, "Summarization ratio is {$ratio} but it should be 0.25");
+        $this->assertEquals(0.25, $ratio, "Summarization ratio is {$ratio} but it should be 0.25", 0.15);
     }
 
     public function test_ratio()
@@ -49,22 +49,22 @@ ARTICLE;
 
         $output = $this->summarizer(0.1)->summarize($input, false);
         $ratio = strlen($output) * 1.0 / strlen($input);
-        assert(0.05 < $ratio and $ratio < 0.2, "Ratio should be 0.1 but it is {$ratio}.");
+        $this->assertEquals(0.1, $ratio, "Ratio should be 0.1 but it is {$ratio}.", 0.1);
 
         $output = $this->summarizer(0.2)->summarize($input, false);
         $ratio = strlen($output) * 1.0 / strlen($input);
-        $this-(0.15 < $ratio and $ratio < 0.3, "Ratio should be 0.2 but it is {$ratio}.");
+        $this->assertEquals(0.2, $ratio, "Ratio should be 0.2 but it is {$ratio}.", 0.1);
 
         $output = $this->summarizer(0.3)->summarize($input, false);
         $ratio = strlen($output) * 1.0 / strlen($input);
-        assert(0.25 < $ratio and $ratio < 0.4, "Ratio should be 0.3 but it is {$ratio}.");
+        $this->assertEquals(0.3, $ratio, "Ratio should be 0.3 but it is {$ratio}.", 0.1);
 
         $output = $this->summarizer(0.4)->summarize($input, false);
         $ratio = strlen($output) * 1.0 / strlen($input);
-        assert(0.35 < $ratio and $ratio < 0.5, "Ratio should be 0.4 but it is {$ratio}.");
+        $this->assertEquals(0.4, $ratio, "Ratio should be 0.4 but it is {$ratio}.", 0.1);
 
-        $output = $this->summarizer(0.4)->summarize($input, false);
+        $output = $this->summarizer(0.5)->summarize($input, false);
         $ratio = strlen($output) * 1.0 / strlen($input);
-        assert(0.45 < $ratio and $ratio < 0.6, "Ratio should be 0.5 but it is {$ratio}.");
+        $this->assertEquals(0.5, $ratio, "Ratio should be 0.5 but it is {$ratio}.", 0.1);
     }
 }

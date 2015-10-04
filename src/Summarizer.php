@@ -48,8 +48,8 @@ class Summarizer
         $this->output = $this->getFilename();
         $this->ratio = $ratio;
         $this->dictionary = $dictionary;
-        $this->binary = "/usr/bin/ots";
-        if (!file_exists($this->binary)) {
+        $this->binary = "ots";
+        if (!strlen(shell_exec("which {$this->binary}"))) {
             throw new \UnexpectedValueException('open text summarizer not available for this operation system.');
         }
     }
