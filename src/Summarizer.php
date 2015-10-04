@@ -48,12 +48,8 @@ class Summarizer
         $this->output = $this->getFilename();
         $this->ratio = $ratio;
         $this->dictionary = $dictionary;
-        $this->binary = dirname(__DIR__) . "/bin/";
-        if (strpos(PHP_OS, "Darwin") !== false) {
-            $this->binary .= 'ots-osx';
-        } elseif (strpos(PHP_OS, "Linux") != false) {
-            $this->binary .= 'ots';
-        } else {
+        $this->binary = "/usr/bin/ots";
+        if (!file_exists($this->binary)) {
             throw new \UnexpectedValueException('open text summarizer not available for this operation system.');
         }
     }
@@ -62,13 +58,14 @@ class Summarizer
      * @param string $input Filename or url or content of the file.
      *                      File content should be at least 255 characters long.
      *
+     * @param bool   $isFile
+     *
      * @return string
      */
-    public function summarize($input)
+    public function summarize($input, $isFile = false)
     {
-        $this->loadInput($input);
+        $this->loadInput($input, $isFile);
         $parameters = $this->getParameters();
-        echo $this->binary() . " {$parameters} --out={$this->output} {$this->input}";
         exec($this->binary() . " {$parameters} --out={$this->output} {$this->input}");
 
         $output = file_get_contents($this->output);
@@ -78,13 +75,12 @@ class Summarizer
     }
 
     /**
-     * @param $input
-     *
-     * @return void
+     * @param      $input
+     * @param bool $isFile
      */
-    protected function loadInput($input)
+    protected function loadInput($input, $isFile = false)
     {
-        if (strlen($input) < 255) {
+        if ($isFile) {
             $url = $input;
             $input = file_get_contents($url);
             if (strpos($url, 'http') == 0) {
@@ -94,8 +90,6 @@ class Summarizer
         $in = fopen($this->input, 'w');
         fwrite($in, $input);
         fclose($in);
-
-        echo file_get_contents($this->input);
     }
 
     /**
@@ -104,7 +98,7 @@ class Summarizer
     protected function getParameters()
     {
         $parameters = '';
-        if (!$this->dictionary) {
+        if (null !== $this->dictionary) {
             $parameters .= "--dict={$this->dictionary} ";
         }
 
@@ -137,7 +131,7 @@ class Summarizer
      */
     protected function getFilename()
     {
-        return tempnam(sys_get_temp_dir(), $this->generateRandomString(36));
+        return tempnam(sys_get_temp_dir(), $this->generateRandomString(16));
     }
 
     /**
