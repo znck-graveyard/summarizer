@@ -9,3 +9,6 @@ install:
   - sudo apt-get install libots0
   - composer self-update
   - composer install
+
+notifications:
+  email: false
